@@ -12,7 +12,7 @@ This project was built to simulate how modern backend systems are **monitored an
 
 ## Features
 
-### 🌤 Weather Monitoring
+###  Weather Monitoring
 
 * Fetches real-time weather data using the OpenWeather API.
 * Displays current temperature and weather conditions for a selected city.
