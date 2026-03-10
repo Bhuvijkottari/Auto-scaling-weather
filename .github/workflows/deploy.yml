@@ -7,8 +7,10 @@ on:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+
     env:
-  OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+      OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+
     steps:
       - uses: actions/checkout@v3
 
