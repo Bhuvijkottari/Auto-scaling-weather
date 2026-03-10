@@ -1,0 +1,6 @@
+fastapi
+requests
+prometheus_client
+apscheduler
+uvicorn
+sqlite3
