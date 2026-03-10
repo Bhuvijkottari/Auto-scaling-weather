@@ -20,7 +20,7 @@ REQUEST_COUNT = Counter('weather_requests_total', 'Total weather API requests')
 WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK")
 API_KEY = os.getenv("OPENWEATHER_API_KEY")  # fallback
 CITY = os.getenv("CITY_NAME", "Mangalore")
-
+print("API KEY:", API_KEY)
 # ----------------------------
 # SQLite DB for Historical Data
 # ----------------------------
@@ -61,10 +61,10 @@ def check_weather_and_alert():
     try:
         url = f"https://api.openweathermap.org/data/2.5/weather?q={CITY}&appid={API_KEY}&units=metric"
         response = requests.get(url).json()
-
+        print(response)  
         if response.get("cod") != 200:
-            print("Failed to fetch weather:", response.get("message"))
-            return
+          return {"error": "Failed to fetch weather", "details": response}
+
 
         temperature = response["main"]["temp"]
         condition = response["weather"][0]["description"]
@@ -116,6 +116,21 @@ def get_weather():
         "condition": condition,
         "alert": alert
     }
+@app.get("/history")
+def get_history():
+    cursor.execute("SELECT * FROM weather ORDER BY timestamp DESC LIMIT 20")
+    rows = cursor.fetchall()
+
+    data = []
+    for r in rows:
+        data.append({
+            "timestamp": r[0],
+            "city": r[1],
+            "temperature": r[2],
+            "condition": r[3]
+        })
+
+    return data
 
 @app.get("/metrics")
 def metrics():
